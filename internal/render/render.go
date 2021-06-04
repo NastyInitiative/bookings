@@ -8,8 +8,9 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/NastyInitiative/bookings/pkg/config"
-	"github.com/NastyInitiative/bookings/pkg/models"
+	"github.com/NastyInitiative/bookings/internal/config"
+	"github.com/NastyInitiative/bookings/internal/models"
+	"github.com/justinas/nosurf"
 )
 
 var functions = template.FuncMap{}
@@ -19,13 +20,13 @@ func NewTemplate(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(tData *models.TemplateData) *models.TemplateData {
-
+func AddDefaultData(tData *models.TemplateData, r *http.Request) *models.TemplateData {
+	tData.CSRFToken = nosurf.Token(r)
 	return tData
 }
 
 //RenderTemplate - renders templates using html/template
-func RenderTemplate(w http.ResponseWriter, tmpl string, tData *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, tData *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -42,7 +43,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, tData *models.TemplateDa
 
 	buf := new(bytes.Buffer)
 
-	tData = AddDefaultData(tData)
+	tData = AddDefaultData(tData, r)
 	_ = t.Execute(buf, tData)
 
 	_, err := buf.WriteTo(w)

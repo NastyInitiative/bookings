@@ -1,0 +1,35 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="static/images/marjors-suite.png" alt="generals quarters" class="img-fluid img-thumbnail mx-auto d-block room-image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4">Major's Suite</h1>
+            <p>Your home away from home</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas impedit voluptates quo animi? 
+            Iste doloribus, obcaecati saepe illo porro perspiciatis quas molestiae cupiditate distinctio. 
+            Impedit similique fugiat sit possimus? Saepe.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas impedit voluptates quo animi? 
+            Iste doloribus, obcaecati saepe illo porro perspiciatis quas molestiae cupiditate distinctio. 
+            Impedit similique fugiat sit possimus? Saepe.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            <!-- <button type="button" class="btn btn-warning">Make Reservation Now</button> -->
+
+            <a id="check-availability-button" href="#!" class="btn btn-warning">Check availability</a>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "js"}}
+    <script src="/static/js/checkAvailabilityForm.js"></script>
+{{end}}

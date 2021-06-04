@@ -1,0 +1,53 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+            
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <h1>Make reservation</h1>
+            
+            <form action="" method="POST" class="needs-validation" novalidate>
+                <div class="row">
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first-name" name="first-name" aria-describedby="firstNameHelp" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last-name" name="last-name" aria-describedby="lastNameHelp" required autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="firstNameHelp" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="phone-number" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone-number" name="phone-number" aria-describedby="firstNameHelp" required autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </form>
+
+
+
+        </div>
+    </div>
+</div>
+{{end}}

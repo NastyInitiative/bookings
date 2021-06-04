@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/NastyInitiative/bookings/pkg/config"
-	"github.com/NastyInitiative/bookings/pkg/handlers"
-	"github.com/NastyInitiative/bookings/pkg/render"
+	"github.com/NastyInitiative/bookings/internal/config"
+	"github.com/NastyInitiative/bookings/internal/handlers"
+	"github.com/NastyInitiative/bookings/internal/render"
 
 	"github.com/alexedwards/scs/v2"
 )
