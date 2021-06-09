@@ -37,6 +37,9 @@ function notifyModal(title, text, icon, confirmButtonText) {
     })
 }
 
+// {{with .Error}}
+// notify("{{.}}", "error")
+{{end}}
 function Prompt() {
     let toast = function(c) {
         const { msg = "", 

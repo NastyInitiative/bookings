@@ -1,0 +1,22 @@
+mode: set
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:26.47,30.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:33.33,35.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:38.67,42.2 3 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:45.68,57.2 5 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:60.74,68.2 4 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:71.78,73.16 2 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:78.2,90.19 6 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:101.2,103.66 2 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:73.16,76.3 2 0
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:90.19,99.3 4 0
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:107.71,109.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:112.69,114.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:117.74,119.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:122.78,127.2 3 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:135.78,142.16 3 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:146.2,149.14 3 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:142.16,144.3 1 0
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:152.70,154.2 1 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:156.83,159.9 2 1
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:166.2,172.4 4 0
+github.com/NastyInitiative/bookings/internal/handlers/handlers.go:159.9,164.3 4 1

@@ -1,0 +1,6 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/altos/OneDrive/Desktop/workspace/personal projects/golang-projects/bookings'
+make: Leaving directory 'c:/Users/altos/OneDrive/Desktop/workspace/personal projects/golang-projects/bookings'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+ 

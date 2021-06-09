@@ -1,0 +1,18 @@
+mode: set
+github.com/NastyInitiative/bookings/internal/forms/errors.go:6.44,8.2 1 1
+github.com/NastyInitiative/bookings/internal/forms/errors.go:11.42,14.27 2 0
+github.com/NastyInitiative/bookings/internal/forms/errors.go:18.2,18.23 1 0
+github.com/NastyInitiative/bookings/internal/forms/errors.go:14.27,16.3 1 0
+github.com/NastyInitiative/bookings/internal/forms/forms.go:19.33,24.2 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:27.61,29.20 2 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:32.2,32.13 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:29.20,31.3 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:37.32,39.2 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:42.46,43.31 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:43.31,45.37 2 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:45.37,47.4 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:52.79,54.28 2 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:58.2,58.13 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:54.28,57.3 2 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:62.41,63.43 1 1
+github.com/NastyInitiative/bookings/internal/forms/forms.go:63.43,65.3 1 1

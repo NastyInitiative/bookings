@@ -1,0 +1,10 @@
+mode: set
+github.com/NastyInitiative/bookings/cmd/web/middleware.go:10.45,21.2 3 1
+github.com/NastyInitiative/bookings/cmd/web/middleware.go:24.50,26.2 1 1
+github.com/NastyInitiative/bookings/cmd/web/routes.go:14.49,42.2 19 1
+github.com/NastyInitiative/bookings/cmd/web/main.go:24.13,27.16 2 0
+github.com/NastyInitiative/bookings/cmd/web/main.go:31.2,38.16 4 0
+github.com/NastyInitiative/bookings/cmd/web/main.go:27.16,29.3 1 0
+github.com/NastyInitiative/bookings/cmd/web/main.go:41.18,58.16 10 1
+github.com/NastyInitiative/bookings/cmd/web/main.go:63.2,71.12 6 1
+github.com/NastyInitiative/bookings/cmd/web/main.go:58.16,61.3 2 0
