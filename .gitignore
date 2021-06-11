@@ -1,1 +1,4 @@
 .idea
+database.yml
+run.bat
+run.sh

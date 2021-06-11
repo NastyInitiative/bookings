@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/NastyInitiative/bookings/internal/config"
 	"github.com/NastyInitiative/bookings/internal/handlers"
+	"github.com/NastyInitiative/bookings/internal/helpers"
 	"github.com/NastyInitiative/bookings/internal/models"
 	"github.com/NastyInitiative/bookings/internal/render"
 
@@ -18,8 +20,9 @@ import (
 const portNumber = ":8080"
 
 var app config.AppConfig
-
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 func main() {
 
@@ -46,6 +49,12 @@ func run() error {
 	// change this to true when in production
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -66,7 +75,7 @@ func run() error {
 	repo := handlers.NewRepo(&app)
 
 	handlers.NewHandlers(repo)
-
+	helpers.NewHelpers(&app)
 	render.NewTemplate(&app)
 	return nil
 }

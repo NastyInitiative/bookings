@@ -44,22 +44,22 @@ func TestForm_Required(t *testing.T) {
 }
 
 func TestForm_MinLength(t *testing.T) {
-	r := httptest.NewRequest("POST", "/pippo", nil)
-	form := New(r.PostForm)
+	postData := url.Values{}
+	form := New(postData)
 
 	// First case - validated field does not exist
-	form.MinLength("a", 3, r)
+	form.MinLength("a", 3)
 	if form.Valid() {
 		t.Error(":: Length should be invalid because field is missing, got valid instead ::")
 	}
 
-	postData := url.Values{}
+	postData = url.Values{}
 	postData.Add("a", "a")
 	postData.Add("b", "aaa")
 
 	// Second case - a has invalid length
 	form = New(postData)
-	form.MinLength("a", 3, r)
+	form.MinLength("a", 3)
 	l := len(postData.Get("a"))
 	if form.Valid() {
 		t.Errorf(fmt.Sprintf(":: Length of %s should be %d, got %d instead ::", "a", 3, l))
@@ -67,7 +67,7 @@ func TestForm_MinLength(t *testing.T) {
 
 	// Third case - b has valid length
 	form = New(postData)
-	form.MinLength("b", 3, r)
+	form.MinLength("b", 3)
 	if !form.Valid() {
 		t.Errorf(":: Length of %s should be valid, got invalid instead ::", "b")
 	}
@@ -75,8 +75,8 @@ func TestForm_MinLength(t *testing.T) {
 }
 
 func TestForm_IsEmail(t *testing.T) {
-	r := httptest.NewRequest("POST", "/pippo", nil)
-	form := New(r.PostForm)
+	postData := url.Values{}
+	form := New(postData)
 
 	// First case - validated field does not exist
 	form.IsEmail("a")
@@ -84,7 +84,7 @@ func TestForm_IsEmail(t *testing.T) {
 		t.Error(":: Email should be invalid since no value is passed, got valid instead ::")
 	}
 
-	postData := url.Values{}
+	postData = url.Values{}
 	postData.Add("a", "a@a.com")
 	postData.Add("b", "a@a")
 
@@ -104,21 +104,20 @@ func TestForm_IsEmail(t *testing.T) {
 }
 
 func TestForm_Has(t *testing.T) {
-	r := httptest.NewRequest("POST", "/pippo", nil)
-
+	postData := url.Values{}
 	// First case - field does not exists
-	form := New(r.PostForm)
-	has := form.Has("whatever", r)
+	form := New(postData)
+	has := form.Has("whatever")
 	if has {
 		t.Error("form shows it has the field when in doesn't")
 	}
 
-	postData := url.Values{}
+	postData = url.Values{}
 	postData.Add("a", "a")
 
 	// Second case - field does exists
 	form = New(postData)
-	has = form.Has("a", r)
+	has = form.Has("a")
 	if !has {
 		t.Error(":: form shows it does not have field when it does")
 	}

@@ -7,6 +7,7 @@ import (
 
 	"github.com/NastyInitiative/bookings/internal/config"
 	"github.com/NastyInitiative/bookings/internal/forms"
+	"github.com/NastyInitiative/bookings/internal/helpers"
 	"github.com/NastyInitiative/bookings/internal/models"
 	"github.com/NastyInitiative/bookings/internal/render"
 
@@ -36,24 +37,13 @@ func NewHandlers(r *Repository) {
 
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	remoteIP := r.RemoteAddr
-	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello again"
-
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-
-	stringMap["remote_ip"] = remoteIP
-
-	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
-	})
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{})
 }
 
 // Reservation - renders the make reservation page and displays form
@@ -71,7 +61,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -84,7 +74,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	form := forms.New(r.PostForm)
 	form.Required("first-name", "last-name", "email")
-	form.MinLength("first-name", 3, r)
+	form.MinLength("first-name", 3)
 	form.IsEmail("email")
 
 	if !form.Valid() {
@@ -140,7 +130,8 @@ func (m *Repository) AvailabiltyJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 
 	log.Println(string(out))
@@ -157,7 +148,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, req *http.Request
 
 	reservation, ok := m.App.Session.Get(req.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("Cannot get item from session")
+		m.App.ErrorLog.Println("Can't get error from session")
 		m.App.Session.Put(req.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, req, "/", http.StatusTemporaryRedirect)
 		return
