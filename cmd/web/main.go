@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/NastyInitiative/bookings/internal/config"
+	"github.com/NastyInitiative/bookings/internal/driver"
 	"github.com/NastyInitiative/bookings/internal/handlers"
 	"github.com/NastyInitiative/bookings/internal/helpers"
 	"github.com/NastyInitiative/bookings/internal/models"
@@ -26,12 +27,15 @@ var errorLog *log.Logger
 
 func main() {
 
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(fmt.Sprintf("Starting application on port #{portNumber}"))
+	defer db.SQL.Close()
+
+	// fmt.Println(fmt.Sprintf("Starting application on port :: %v", portNumber))
+	fmt.Printf("Starting application on host -- %v with port -- %v\n", "localhost", portNumber)
 
 	serve := &http.Server{
 		Addr:    portNumber,
@@ -41,10 +45,13 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 
 	// What am i going to put in the session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	// change this to true when in production
 	app.InProduction = false
@@ -63,19 +70,31 @@ func run() error {
 
 	app.Session = session
 
+	// Connect to database
+	fmt.Println("==============================")
+	log.Println("Connecting to database ...")
+
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=postgres password=elekktro91.22")
+	if err != nil {
+		log.Fatal("Cannot connect to database. Exiting application...")
+	}
+	log.Println("Connected to database!")
+
+	fmt.Println("==============================")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 
 	handlers.NewHandlers(repo)
 	helpers.NewHelpers(&app)
-	render.NewTemplate(&app)
-	return nil
+	render.NewRenderer(&app)
+	return db, nil
 }

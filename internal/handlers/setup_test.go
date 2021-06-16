@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/NastyInitiative/bookings/internal/config"
+	"github.com/NastyInitiative/bookings/internal/driver"
 	"github.com/NastyInitiative/bookings/internal/models"
 	"github.com/NastyInitiative/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
@@ -51,12 +52,20 @@ func getRoutes() http.Handler {
 
 	app.TemplateCache = tc
 	app.UseCache = true
+	fmt.Println("==============================")
+	log.Println("Connecting to database ...")
 
-	repo := NewRepo(&app)
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=postgres password=elekktro91.22")
+	if err != nil {
+		log.Fatal("Cannot connect to database. Exiting application...")
+	}
+
+	fmt.Println("==============================")
+	repo := NewRepo(&app, db)
 
 	NewHandlers(repo)
 
-	render.NewTemplate(&app)
+	render.NewRenderer(&app)
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
