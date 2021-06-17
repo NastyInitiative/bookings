@@ -35,8 +35,8 @@ var theTests = []struct {
 		{key: "end", value: "05/01/2021"},
 	}, http.StatusOK},
 	{"make reservation post", "/make-reservation", "POST", []postData{
-		{key: "first-name", value: "John"},
-		{key: "last-name", value: "Doe"},
+		{key: "first_name", value: "John"},
+		{key: "last_name", value: "Doe"},
 		{key: "email", value: "my.me@pipolo.com"},
 		{key: "phone", value: "3245556789"},
 	}, http.StatusOK},

@@ -41,8 +41,8 @@ type Reservation struct {
 	EndDate   time.Time
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	RoomID    string
-	Rooms     Room
+	RoomID    int
+	Room      Room
 }
 
 // RoomRestrictions - single room restriction data model

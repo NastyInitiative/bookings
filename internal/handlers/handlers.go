@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
+	"time"
 
 	"github.com/NastyInitiative/bookings/internal/config"
 	"github.com/NastyInitiative/bookings/internal/driver"
@@ -67,20 +69,46 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		helpers.ServerError(w, err)
+		helpers.ServerError(w, "During parsing form", err)
 		return
 	}
 
+	startDateValue := r.Form.Get("start_date")
+	endDateValue := r.Form.Get("end_date")
+
+	// Go time format reference -> 2021-01-01 or 01/01/2021 => 01/02 03:04:05PM '06 -0700
+
+	layout := "01/02/2006"
+	startDateParsed, err := time.Parse(layout, startDateValue)
+	if err != nil {
+		helpers.ServerError(w, "During parsing start date string value", err)
+		return
+	}
+
+	endDateParsed, err := time.Parse(layout, endDateValue)
+	if err != nil {
+		helpers.ServerError(w, "During parsing end date string value", err)
+		return
+	}
+
+	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
+	if err != nil {
+		helpers.ServerError(w, "During converting room_id to int", err)
+		return
+	}
 	reservation := models.Reservation{
-		FirstName: r.Form.Get("first-name"),
-		LastName:  r.Form.Get("last-name"),
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
 		Email:     r.Form.Get("email"),
-		Phone:     r.Form.Get("phone-number"),
+		Phone:     r.Form.Get("phone"),
+		StartDate: startDateParsed,
+		EndDate:   endDateParsed,
+		RoomID:    roomID,
 	}
 
 	form := forms.New(r.PostForm)
-	form.Required("first-name", "last-name", "email")
-	form.MinLength("first-name", 3)
+	form.Required("first_name", "last_name", "email")
+	form.MinLength("first_name", 3)
 	form.IsEmail("email")
 
 	if !form.Valid() {
@@ -91,6 +119,25 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 			Form: form,
 			Data: data,
 		})
+		return
+	}
+	newReservationID, err := m.DB.InsertReservation(reservation)
+	if err != nil {
+		helpers.ServerError(w, "During saving a new reservation on database", err)
+		return
+	}
+
+	restriction := models.RoomRestriction{
+		StartDate:     startDateParsed,
+		EndDate:       endDateParsed,
+		RoomID:        roomID,
+		ReservationID: newReservationID,
+		RestrictionID: 1,
+	}
+
+	err = m.DB.InsertRoomRestriction(restriction)
+	if err != nil {
+		helpers.ServerError(w, "During inserting a new room restrinction on database", err)
 		return
 	}
 
@@ -136,7 +183,7 @@ func (m *Repository) AvailabiltyJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		helpers.ServerError(w, err)
+		helpers.ServerError(w, "During marshaling resp to JSON", err)
 		return
 	}
 
